@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+useradd -u $USER_ID dummy
+mkdir -p /home/dummy/.ssh /home/dummy/.npm
+cat /bk > /home/dummy/.ssh/id_rsa
+chmod 600 /home/dummy/.ssh/id_rsa
+chown -R dummy /home/dummy
+su dummy -c "$*"
