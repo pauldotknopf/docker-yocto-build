@@ -10,16 +10,14 @@ GIT_VERSION_JSON=`./gitversion`
 GIT_SEMVAR_VERSION=`echo $GIT_VERSION_JSON | jq '.SemVer' --raw-output`
 GIT_VERSION_PRERELEASE_LABEL=`echo $GIT_VERSION_JSON | jq '.PreReleaseLabel' --raw-output`
 
-echo $GIT_VERSION_PRERELEASE_LABEL
-
-if [ ! "$GIT_VERSION_PRERELEASE_LABEL" == "" ]; then
+if [ -z "$GIT_VERSION_PRERELEASE_LABEL" ]; then
   docker tag docker-yocto-build pauldotknopf/docker-yocto-build:latest
 fi
 docker tag docker-yocto-build pauldotknopf/docker-yocto-build:v$GIT_SEMVAR_VERSION
 
 docker login --username $DOCKER_LOGIN_USERNAME --password $DOCKER_LOGIN_PASSWORD
 
-if [ ! "$GIT_VERSION_PRERELEASE_LABEL" == "" ]; then
+if [ -z "$GIT_VERSION_PRERELEASE_LABEL" ]; then
   docker push pauldotknopf/docker-yocto-build:latest
 fi
 docker push pauldotknopf/docker-yocto-build:v$GIT_SEMVAR_VERSION
