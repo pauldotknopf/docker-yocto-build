@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+ 
+DIRNAME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+pushd $DIRNAME
+
+docker build -t docker-yocto-build .
+
+popd

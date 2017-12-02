@@ -24,10 +24,6 @@ RUN apt-get clean
 RUN git config --system user.email "nobody@nobody.com"
 RUN git config --system user.name "No Body"
 
-ADD bk /root/.ssh/id_rsa
-RUN chmod 600 /root/.ssh/id_rsa
-ADD bk /
-
 RUN echo "StrictHostKeyChecking=no" | tee -a /etc/ssh/ssh_config
 
 ADD entrypoint-script /
