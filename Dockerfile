@@ -2,11 +2,11 @@ FROM ubuntu:xenial
 
 RUN apt-get update
 
-RUN apt-get install -q -y software-properties-common curl
-RUN add-apt-repository ppa:git-core/ppa
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-RUN apt-get install -q -y git-lfs
-RUN git lfs install
+RUN apt-get install -q -y software-properties-common curl && \
+    add-apt-repository ppa:git-core/ppa && \
+    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get install -q -y git-lfs && \
+    git lfs install
 
 RUN apt-get install -q -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
