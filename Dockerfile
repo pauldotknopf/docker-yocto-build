@@ -2,9 +2,15 @@ FROM ubuntu:xenial
 
 RUN apt-get update
 
+RUN apt-get install -q -y software-properties-common curl
+RUN add-apt-repository ppa:git-core/ppa
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+RUN apt-get install -q -y git-lfs
+RUN git lfs install
+
 RUN apt-get install -q -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
-     xz-utils debianutils iputils-ping libsdl1.2-dev xterm
+     xz-utils debianutils iputils-ping libsdl1.2-dev xterm git-lfs
 
 # Install gitversion
 RUN apt-get install -q -y mono-complete ca-certificates-mono libcurl3
