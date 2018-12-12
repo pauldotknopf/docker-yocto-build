@@ -45,7 +45,7 @@ RUN git config --system user.email "nobody@nobody.com"
 RUN git config --system user.name "No Body"
 
 # For when bitbake needs a terminal
-RUN apt-get install -y -q screen
+RUN apt-get install -y -q tmux
 
 RUN echo "StrictHostKeyChecking=no" | tee -a /etc/ssh/ssh_config
 
