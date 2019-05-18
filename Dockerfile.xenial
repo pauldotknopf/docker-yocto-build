@@ -35,6 +35,7 @@ RUN apt-get install -y -q tmux
 
 RUN echo "StrictHostKeyChecking=no" | tee -a /etc/ssh/ssh_config
 
-ADD entrypoint-script /
+RUN wget -O /usr/bin/gosu https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64 && chmod +x /usr/bin/gosu
+ADD entrypoint-script /usr/bin
 
-ENTRYPOINT ["/entrypoint-script"]
+ENTRYPOINT ["/usr/bin/entrypoint-script", "-c"]

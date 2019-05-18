@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 USER_ID="$USER_ID"
@@ -8,6 +8,10 @@ if [ -z "$USER_ID" ]; then
     USER_ID="1000"
 fi
 
-useradd -u ${USER_ID} dummy
-mkdir -p /home/dummy/.ssh
-su dummy -c "$*"
+id dummy > /dev/null 2>&1 || { 
+    echo "Creating dummy user..."
+    useradd -u ${USER_ID} -s /bin/bash dummy
+    mkdir -p /home/dummy/.ssh
+}
+
+exec gosu dummy /bin/bash "$@"
