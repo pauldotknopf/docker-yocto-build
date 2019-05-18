@@ -37,5 +37,6 @@ RUN echo "StrictHostKeyChecking=no" | tee -a /etc/ssh/ssh_config
 
 RUN wget -O /usr/bin/gosu https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64 && chmod +x /usr/bin/gosu
 ADD entrypoint-script /usr/bin
+RUN ln -s /usr/bin/entrypoint-script /usr/bin/dummy-bash
 
 ENTRYPOINT ["/usr/bin/entrypoint-script", "-c"]
