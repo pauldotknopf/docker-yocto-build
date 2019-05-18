@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-USER_ID="$USER_ID"
+CUSTOM_USER_ID="$DUMMY_USER_ID"
 
-if [ -z "$USER_ID" ]; then
+if [ -z "$DUMMY_USER_ID" ]; then
     echo "Set USER_ID to 1000"
     USER_ID="1000"
 fi
 
 id dummy > /dev/null 2>&1 || { 
     echo "Creating dummy user..."
-    useradd -u ${USER_ID} -s /bin/bash dummy
+    useradd -u ${DUMMY_USER_ID} -s /bin/bash dummy
     mkdir -p /home/dummy/.ssh
 }
 
