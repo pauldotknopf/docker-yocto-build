@@ -3,23 +3,22 @@
 set -e
 
 DIRNAME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-pushd $DIRNAME
+cd $DIRNAME
 
 GIT_VERSION_JSON=`./gitversion`
 GIT_SEMVAR_VERSION=`echo $GIT_VERSION_JSON | jq '.SemVer' --raw-output`
 GIT_VERSION_PRERELEASE_LABEL=`echo $GIT_VERSION_JSON | jq '.PreReleaseLabel' --raw-output`
 
 if [ -z "$GIT_VERSION_PRERELEASE_LABEL" ]; then
-  docker tag docker-yocto-build pauldotknopf/docker-yocto-build:latest
+  docker tag docker-yocto-build:trusty pauldotknopf/docker-yocto-build:trusty
+  docker tag docker-yocto-build:xenial pauldotknopf/docker-yocto-build:xenial
 fi
-docker tag docker-yocto-build pauldotknopf/docker-yocto-build:v$GIT_SEMVAR_VERSION
-
-docker login --username $DOCKER_LOGIN_USERNAME --password $DOCKER_LOGIN_PASSWORD
+docker tag docker-yocto-build:trusty pauldotknopf/docker-yocto-build:trusty-v$GIT_SEMVAR_VERSION
+docker tag docker-yocto-build:xenial pauldotknopf/docker-yocto-build:xenial-v$GIT_SEMVAR_VERSION
 
 if [ -z "$GIT_VERSION_PRERELEASE_LABEL" ]; then
-  docker push pauldotknopf/docker-yocto-build:latest
+  docker push pauldotknopf/docker-yocto-build:trusty
+  docker push pauldotknopf/docker-yocto-build:xenial
 fi
-docker push pauldotknopf/docker-yocto-build:v$GIT_SEMVAR_VERSION
-
-popd
+docker push pauldotknopf/docker-yocto-build:trusty-v$GIT_SEMVAR_VERSION
+docker push pauldotknopf/docker-yocto-build:xenial-v$GIT_SEMVAR_VERSION

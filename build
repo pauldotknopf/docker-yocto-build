@@ -1,11 +1,8 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -e
  
 DIRNAME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIRNAME
 
-pushd $DIRNAME
-
-docker build -t docker-yocto-build .
-
-popd
+docker build -t docker-yocto-build:trusty -f Dockerfile.trusty .
+docker build -t docker-yocto-build:xenial -f Dockerfile.xenial .

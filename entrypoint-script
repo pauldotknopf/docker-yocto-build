@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
-useradd -u $USER_ID dummy
+USER_ID="$USER_ID"
+
+if [ -z "$USER_ID" ]; then
+    echo "Set USER_ID to 1000"
+    USER_ID="1000"
+fi
+
+useradd -u ${USER_ID} dummy
 mkdir -p /home/dummy/.ssh
 su dummy -c "$*"
