@@ -1,12 +1,7 @@
-FROM ubuntu:trusty
+FROM ubuntu:bionic
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
-
-RUN apt-get install -q -y software-properties-common curl && \
-    add-apt-repository ppa:git-core/ppa && \
-    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get install -q -y git-lfs && \
-    git lfs install
 
 RUN apt-get install -q -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
@@ -15,13 +10,16 @@ RUN apt-get install -q -y gawk wget git-core diffstat unzip texinfo gcc-multilib
 # Fix error "Please use a locale setting which supports utf-8."
 # See https://wiki.yoctoproject.org/wiki/TipsAndTricks/ResolvingLocaleIssues
 RUN apt-get install -y locales
-RUN locale-gen "en_US.UTF-8"
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+        echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \
+        dpkg-reconfigure --frontend=noninteractive locales && \
+        update-locale LANG=en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Install gitversion
-RUN apt-get install -q -y mono-complete
+RUN apt-get install -q -y mono-complete ca-certificates-mono libcurl3
 RUN mkdir -p /usr/local/bin/mono/NuGet && \
      wget -O /usr/local/bin/mono/NuGet/nuget.exe https://dist.nuget.org/win-x86-commandline/v4.5.0/nuget.exe && \
      echo "#!/bin/bash" | tee /usr/local/bin/nuget && \
