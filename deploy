@@ -10,15 +10,15 @@ GIT_SEMVAR_VERSION=`echo $GIT_VERSION_JSON | jq '.SemVer' --raw-output`
 GIT_VERSION_PRERELEASE_LABEL=`echo $GIT_VERSION_JSON | jq '.PreReleaseLabel' --raw-output`
 
 if [ -z "$GIT_VERSION_PRERELEASE_LABEL" ]; then
-  docker tag docker-yocto-build:trusty pauldotknopf/docker-yocto-build:trusty
   docker tag docker-yocto-build:xenial pauldotknopf/docker-yocto-build:xenial
+  docker tag docker-yocto-build:xenial pauldotknopf/docker-yocto-build:bionic
 fi
-docker tag docker-yocto-build:trusty pauldotknopf/docker-yocto-build:trusty-v$GIT_SEMVAR_VERSION
 docker tag docker-yocto-build:xenial pauldotknopf/docker-yocto-build:xenial-v$GIT_SEMVAR_VERSION
+docker tag docker-yocto-build:xenial pauldotknopf/docker-yocto-build:bionic-v$GIT_SEMVAR_VERSION
 
 if [ -z "$GIT_VERSION_PRERELEASE_LABEL" ]; then
-  docker push pauldotknopf/docker-yocto-build:trusty
   docker push pauldotknopf/docker-yocto-build:xenial
+  docker push pauldotknopf/docker-yocto-build:bionic
 fi
-docker push pauldotknopf/docker-yocto-build:trusty-v$GIT_SEMVAR_VERSION
 docker push pauldotknopf/docker-yocto-build:xenial-v$GIT_SEMVAR_VERSION
+docker push pauldotknopf/docker-yocto-build:bionic-v$GIT_SEMVAR_VERSION
